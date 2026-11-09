@@ -1,6 +1,6 @@
 #if 0
 # ============================================================================
-# 🐍 SECTION A: PYTHON EXECUTION MODULE (Skipped by C++ compiler)
+# SECTION A: PYTHON EXECUTION MODULE (Skipped by C++ compiler)
 # ============================================================================
 import sys
 import os
@@ -28,7 +28,6 @@ def execute_wireless_routine(interface, mode):
                 time.sleep(1)
         except KeyboardInterrupt:
             print("\n[-] Terminating monitoring routines.")
-            
     elif mode == "twin":
         print("[*] Initializing automated environment profiles...")
         print("[+] Simulated access point framework online.")
@@ -41,19 +40,20 @@ if __name__ == "__main__":
     if len(sys.argv) < 3:
         sys.exit(1)
         
-    execution_route = sys.argv[1]
+    execution_route = sys.argv
     display_engine_banner()
     
     if execution_route == "wifi":
-        execute_wireless_routine(sys.argv[2], sys.argv[3])
+        execute_wireless_routine(sys.argv, sys.argv)
     elif execution_route == "crypto":
-        execute_cryptographic_parsing(sys.argv[2])
+        execute_cryptographic_parsing(sys.argv)
         
+    # CRUCIAL ABSOLUTE FIX: Force Python to completely terminate execution right here.
     sys.exit(0)
 #endif
 
 // ============================================================================
-// 🏛️ SECTION B: C++ HIGH-PERFORMANCE CORE (Skipped by Python engine)
+// SECTION B: C++ HIGH-PERFORMANCE CORE (Skipped by Python engine)
 // ============================================================================
 #include <iostream>
 #include <string>
@@ -61,8 +61,8 @@ if __name__ == "__main__":
 #include <cstdlib>
 #include <unistd.h>
 #include <csignal>
-#include <chrono>     // Required for timing functions
-#include <thread>     // Required for adding microsecond pauses
+#include <chrono>
+#include <thread>
 #include <sys/socket.h>
 #include <sys/ioctl.h>
 #include <net/if.h>
@@ -76,9 +76,8 @@ void signalHandler(int signum) {
     std::exit(signum);
 }
 
-// Custom function to create a smooth line-by-line animated title screen
 void displayAnimatedIntro() {
-    std::string banner[] = {
+    std::string banner = {
         "====================================================",
         " __      __.__  _____.__  _________                     __   ",
         "/  \\    /  \\__|/ ____\\__| \\_   ___ \\____________  ____ |  | __",
@@ -92,7 +91,6 @@ void displayAnimatedIntro() {
     std::cout << "\n";
     for (const std::string& line : banner) {
         std::cout << line << "\n";
-        // Pause the code execution thread for 80 milliseconds per line
         std::this_thread::sleep_for(std::chrono::milliseconds(80));
     }
     std::cout << "\n";
