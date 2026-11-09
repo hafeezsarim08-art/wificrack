@@ -40,15 +40,14 @@ if __name__ == "__main__":
     if len(sys.argv) < 3:
         sys.exit(1)
         
-    execution_route = sys.argv
+    execution_route = sys.argv[1]
     display_engine_banner()
     
     if execution_route == "wifi":
-        execute_wireless_routine(sys.argv, sys.argv)
+        execute_wireless_routine(sys.argv[2], sys.argv[3])
     elif execution_route == "crypto":
-        execute_cryptographic_parsing(sys.argv)
+        execute_cryptographic_parsing(sys.argv[2])
         
-    # CRUCIAL ABSOLUTE FIX: Force Python to completely terminate execution right here.
     sys.exit(0)
 #endif
 
@@ -77,23 +76,18 @@ void signalHandler(int signum) {
 }
 
 void displayAnimatedIntro() {
-    std::string banner = {
-        "====================================================",
-        " __      __.__  _____.__  _________                     __   ",
-        "/  \\    /  \\__|/ ____\\__| \\_   ___ \\____________  ____ |  | __",
-        "\\   \\/\\/   /  \\   __\\|  | /    \\  \\/\\_  __ \\__  \\/ ___\\|  |/ /",
-        " \\        /|  ||  |  |  | \\     \\____|  | \\// __ \\  \\___|    < ",
-        "  \\__/\\  / |__||__|  |__|  \\______  /|__|  (____  /\\___  >__|_ \\",
-        "       \\/                         \\/            \\/     \\/     \\/",
-        "===================================================="
-    };
+    // Using a C++ Raw String Literal R"(...)" to cleanly handle the ASCII block text
+    std::string banner = R"(====================================================
+ __      __.__  _____.__  _________                     __   
+/  \    /  \__|/ ____\__| \_   ___ \____________  ____ |  | __
+\   \/\\/   /  \\   __\|  | /    \  \/\_  __ \__  \/ ___\|  |/ /
+ \        /|  ||  |  |  | \     \____|  | \// __ \  \___|    < 
+  \__/\\  / |__||__|  |__|  \______  /|__|  (____  /\___  >__|_ \
+       \/                         \/            \/     \/     \/
+====================================================)";
 
-    std::cout << "\n";
-    for (const std::string& line : banner) {
-        std::cout << line << "\n";
-        std::this_thread::sleep_for(std::chrono::milliseconds(80));
-    }
-    std::cout << "\n";
+    std::cout << "\n" << banner << "\n\n";
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
 }
 
 void displayUsageGuide(const std::string& programName) {
