@@ -12,14 +12,13 @@ def display_engine_banner():
 def execute_wireless_routine(interface, mode):
     print(f"[*] Interface: {interface}")
     if mode == "deauth":
+        print("[*] Flushing conflicting network daemons...")
         subprocess.run(["sudo", "airmon-ng", "check", "kill"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        cmd = f"sudo bettercap -iface {interface} -eval \"wifi.recon on; set ticker.period 4; set ticker.commands 'wifi.deauth'; ticker on\" > /dev/null 2>&1 &"
+        
+        print("[+] Launching interactive over-the-air tracking stream...")
+        # Removed the background redirection so it pipes data straight to your terminal window
+        cmd = f"sudo bettercap -iface {interface} -eval \"wifi.recon on; set ticker.period 4; set ticker.commands 'wifi.show'; ticker on\""
         os.system(cmd)
-        try:
-            while True:
-                time.sleep(1)
-        except KeyboardInterrupt:
-            pass
     elif mode == "twin":
         pass
 
@@ -35,15 +34,14 @@ if __name__ == "__main__":
         sys.exit(1)
     
     display_engine_banner()
-    execution_route = sys.argv[1]
+    execution_route = sys.argv
     
     if execution_route == "wifi":
-        execute_wireless_routine(sys.argv[2], sys.argv[3])
+        execute_wireless_routine(sys.argv, sys.argv)
     elif execution_route == "crypto":
-        execute_cryptographic_parsing(sys.argv[2])
+        execute_cryptographic_parsing(sys.argv)
     sys.exit(0)
 
-# This triple quote opens a multi-line string that hides the C++ code from Python's parser
 """
 #endif
 
