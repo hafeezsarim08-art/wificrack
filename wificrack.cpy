@@ -23,7 +23,7 @@ def run_bettercap_bcap_recon(interface):
 
 # PART 2: THE WIFIPUMPKIN3 (wp3) CORE INTERACTIVE FRAMEWORK
 def run_wifipumpkin3_wp3_engine(interface):
-    print(f"\n[*] Initializing Wifipumpkin3 Rogue AP Subsystem Framework...")
+    print(f"\n[*] Initializing Vanilla Wifipumpkin3 Framework...")
     print("[*] Flushing active process tables to isolate wireless card adapters...")
     subprocess.run(["sudo", "airmon-ng", "check", "kill"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     
@@ -31,8 +31,9 @@ def run_wifipumpkin3_wp3_engine(interface):
     print("[!] Launching native WP3 interactive terminal console infrastructure...")
     print("[*] To configure options manually type: set interface " + interface)
     print("[*] To boot the access point portal infrastructure type: start\n")
-    time.sleep(2)
+    time.sleep(1.5)
     
+    # Direct execution loop calling the official, vanilla interactive terminal interface natively
     cmd = "sudo wifipumpkin3"
     os.system(cmd)
 
@@ -86,7 +87,7 @@ def execute_wireless_routine(interface, mode):
             print(" 1. [aircrack-ng] Launch Live Airodump-NG Scan Stream")
             print(" 2. [aircrack-ng] Execute Focused Aireplay-NG Injection")
             print(" 3. [aircrack-ng] Launch Native Aircrack-NG Key Cracking")
-            print(" 4. [wp3 engine] Launch Advanced Wifipumpkin3 AP Portal")
+            print(" 4. [wp3 engine] Launch Vanilla Wifipumpkin3 Framework")
             print(" 5. Exit Menu Layout Prompt")
             print("====================================================")
             choice = input("Select processing routine index [1-5]: ").strip()
@@ -109,15 +110,12 @@ def execute_wireless_routine(interface, mode):
 if __name__ == "__main__":
     if len(sys.argv) < 4:
         sys.exit(1)
-    
     display_engine_banner()
-    # Explicitly fetching string references from system arguments array
-    execution_route = sys.argv[1]
-    
+    execution_route = sys.argv
     if execution_route == "wifi":
-        execute_wireless_routine(sys.argv[2], sys.argv[3])
+        execute_wireless_routine(sys.argv, sys.argv)
     elif execution_route == "crypto":
-        run_aircrack_suite_engine(sys.argv[2])
+        run_aircrack_suite_engine(sys.argv)
     sys.exit(0)
 #endif
 
@@ -170,7 +168,7 @@ bool verifyHardwareInterface(const std::string& ifaceName) {
     return false;
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv) {
     std::signal(SIGINT, signalHandler);
     std::string interface = "";
     std::string mode = "";
@@ -184,7 +182,7 @@ int main(int argc, char* argv[]) {
             case 'f': filePath = optarg; break;
             case 'h':
             default:
-                displayUsageGuide(argv[0]); 
+                displayUsageGuide(argv); 
                 return 0;
         }
     }
@@ -207,7 +205,7 @@ int main(int argc, char* argv[]) {
         std::system(command.c_str());
     }
     else {
-        displayUsageGuide(argv[0]); 
+        displayUsageGuide(argv); 
         return 1;
     }
     return 0;
@@ -216,4 +214,5 @@ int main(int argc, char* argv[]) {
 #if 0
 """
 #endif
+
       
