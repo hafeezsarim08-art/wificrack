@@ -60,29 +60,46 @@ if __name__ == "__main__":
 #include <cstring>
 #include <cstdlib>
 #include <unistd.h>
-#include <csignal>    // Required for intercepting system breaks (Ctrl+C)
+#include <csignal>
+#include <chrono>     // Required for timing functions
+#include <thread>     // Required for adding microsecond pauses
 #include <sys/socket.h>
 #include <sys/ioctl.h>
 #include <net/if.h>
 
-// Global flag or function to clean up background processes cleanly
 void signalHandler(int signum) {
     std::cout << "\n\n[!] Intercepted signal (" << signum << "). Initializing safe cleanup protocol...\n";
     std::cout << "[*] Restoring network state and terminating orphaned subprocess threads...\n";
-    
-    // Natively terminates any hidden background workers to prevent firmware locks
     std::system("sudo pkill -f bettercap > /dev/null 2>&1");
     std::system("sudo systemctl start NetworkManager > /dev/null 2>&1");
-    
     std::cout << "[+] Cleanup completed successfully. Exiting environment safely.\n";
     std::exit(signum);
 }
 
+// Custom function to create a smooth line-by-line animated title screen
+void displayAnimatedIntro() {
+    std::string banner[] = {
+        "====================================================",
+        " __      __.__  _____.__  _________                     __   ",
+        "/  \\    /  \\__|/ ____\\__| \\_   ___ \\____________  ____ |  | __",
+        "\\   \\/\\/   /  \\   __\\|  | /    \\  \\/\\_  __ \\__  \\/ ___\\|  |/ /",
+        " \\        /|  ||  |  |  | \\     \\____|  | \\// __ \\  \\___|    < ",
+        "  \\__/\\  / |__||__|  |__|  \\______  /|__|  (____  /\\___  >__|_ \\",
+        "       \\/                         \\/            \\/     \\/     \\/",
+        "===================================================="
+    };
+
+    std::cout << "\n";
+    for (const std::string& line : banner) {
+        std::cout << line << "\n";
+        // Pause the code execution thread for 80 milliseconds per line
+        std::this_thread::sleep_for(std::chrono::milliseconds(80));
+    }
+    std::cout << "\n";
+}
+
 void displayUsageGuide(const std::string& programName) {
-    std::cout << "====================================================\n"
-              << "          WIFICRACK: Unified Network Engine         \n"
-              << "====================================================\n"
-              << "Usage: " << programName << " [options]\n\n"
+    std::cout << "Usage: " << programName << " [options]\n\n"
               << "Network Modes:\n"
               << "  -i <interface>   Target interface adapter (e.g., wlan0, eth0)\n"
               << "  -m <action>      Action profile (e.g., deauth, twin)\n\n"
@@ -111,7 +128,6 @@ bool verifyHardwareInterface(const std::string& ifaceName) {
 }
 
 int main(int argc, char* argv[]) {
-    // Register the custom signal interceptor callback function
     std::signal(SIGINT, signalHandler);
 
     std::string interface = "";
@@ -126,6 +142,7 @@ int main(int argc, char* argv[]) {
             case 'f': filePath = optarg; break;
             case 'h':
             default:
+                displayAnimatedIntro();
                 displayUsageGuide(argv[0]);
                 return 0;
         }
@@ -137,6 +154,7 @@ int main(int argc, char* argv[]) {
     }
 
     if (!interface.empty() && !mode.empty()) {
+        displayAnimatedIntro();
         std::cout << "[*] Executing Core Compiled System Validations...\n";
         if (!verifyHardwareInterface(interface)) {
             std::cerr << "[-] Error: Specified hardware interface '" << interface << "' is unreachable.\n";
@@ -148,11 +166,13 @@ int main(int argc, char* argv[]) {
         std::system(command.c_str());
     }
     else if (!filePath.empty()) {
+        displayAnimatedIntro();
         std::cout << "[*] File target mapped. Initializing Python data parsing components...\n\n";
         std::string command = "python3 ./wificrack.cpy crypto " + filePath;
         std::system(command.c_str());
     }
     else {
+        displayAnimatedIntro();
         displayUsageGuide(argv[0]);
         return 1;
     }
