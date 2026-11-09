@@ -16,7 +16,6 @@ def execute_wireless_routine(interface, mode):
         subprocess.run(["sudo", "airmon-ng", "check", "kill"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         
         print("[+] Launching interactive over-the-air tracking stream...")
-        # Removed the background redirection so it pipes data straight to your terminal window
         cmd = f"sudo bettercap -iface {interface} -eval \"wifi.recon on; set ticker.period 4; set ticker.commands 'wifi.show'; ticker on\""
         os.system(cmd)
     elif mode == "twin":
@@ -34,12 +33,13 @@ if __name__ == "__main__":
         sys.exit(1)
     
     display_engine_banner()
-    execution_route = sys.argv
+    # Fixed argument array indexing to correctly map input parameters
+    execution_route = sys.argv[1]
     
     if execution_route == "wifi":
-        execute_wireless_routine(sys.argv, sys.argv)
+        execute_wireless_routine(sys.argv[2], sys.argv[3])
     elif execution_route == "crypto":
-        execute_cryptographic_parsing(sys.argv)
+        execute_cryptographic_parsing(sys.argv[2])
     sys.exit(0)
 
 """
