@@ -33,7 +33,6 @@ def run_wifipumpkin3_wp3_engine(interface):
     print("[*] To boot the access point portal infrastructure type: start\n")
     time.sleep(1.5)
     
-    # Direct execution loop calling the official, vanilla interactive terminal interface natively
     cmd = "sudo wifipumpkin3"
     os.system(cmd)
 
@@ -111,11 +110,11 @@ if __name__ == "__main__":
     if len(sys.argv) < 4:
         sys.exit(1)
     display_engine_banner()
-    execution_route = sys.argv
+    execution_route = sys.argv[1]
     if execution_route == "wifi":
-        execute_wireless_routine(sys.argv, sys.argv)
+        execute_wireless_routine(sys.argv[2], sys.argv[3])
     elif execution_route == "crypto":
-        run_aircrack_suite_engine(sys.argv)
+        run_aircrack_suite_engine(sys.argv[2])
     sys.exit(0)
 #endif
 
@@ -168,7 +167,7 @@ bool verifyHardwareInterface(const std::string& ifaceName) {
     return false;
 }
 
-int main(int argc, char* argv) {
+int main(int argc, char* argv[]) {
     std::signal(SIGINT, signalHandler);
     std::string interface = "";
     std::string mode = "";
@@ -182,7 +181,7 @@ int main(int argc, char* argv) {
             case 'f': filePath = optarg; break;
             case 'h':
             default:
-                displayUsageGuide(argv); 
+                displayUsageGuide(argv[0]); 
                 return 0;
         }
     }
@@ -205,7 +204,7 @@ int main(int argc, char* argv) {
         std::system(command.c_str());
     }
     else {
-        displayUsageGuide(argv); 
+        displayUsageGuide(argv[0]); 
         return 1;
     }
     return 0;
@@ -214,5 +213,4 @@ int main(int argc, char* argv) {
 #if 0
 """
 #endif
-
       
