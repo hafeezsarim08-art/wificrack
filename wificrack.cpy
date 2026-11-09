@@ -5,7 +5,9 @@ import time
 import subprocess
 
 def display_engine_banner():
-    print("WIFICRACK RUNNING")
+    print("====================================================")
+    print("                    WIFICRACK                       ")
+    print("====================================================")
 
 def execute_wireless_routine(interface, mode):
     print(f"[*] Interface: {interface}")
@@ -31,13 +33,18 @@ def execute_cryptographic_parsing(file_path):
 if __name__ == "__main__":
     if len(sys.argv) < 3:
         sys.exit(1)
-    execution_route = sys.argv[1]
+    
     display_engine_banner()
+    execution_route = sys.argv[1]
+    
     if execution_route == "wifi":
         execute_wireless_routine(sys.argv[2], sys.argv[3])
     elif execution_route == "crypto":
         execute_cryptographic_parsing(sys.argv[2])
     sys.exit(0)
+
+# This triple quote opens a multi-line string that hides the C++ code from Python's parser
+"""
 #endif
 
 #include <iostream>
@@ -115,4 +122,8 @@ int main(int argc, char* argv[]) {
     }
     return 0;
 }
+
+#if 0
+"""
+#endif
       
