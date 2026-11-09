@@ -41,8 +41,6 @@ def run_wifipumpkin3_wp3_engine(interface):
             
         print("[+] Staging dynamic profile configuration parameters to memory...")
         print("[!] Launching advanced WP3 live infrastructure proxy tree portal...")
-        
-        # Updated parameter flag to match standard wifipumpkin3 initialization syntax
         cmd = f"sudo wifipumpkin3 --p3 {wp3_script}"
         os.system(cmd)
     except Exception as e:
@@ -119,14 +117,15 @@ def execute_wireless_routine(interface, mode):
                 print("[-] Invalid profile mapping context index.")
 
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
+    if len(sys.argv) < 4:
         sys.exit(1)
     display_engine_banner()
-    execution_route = sys.argv
+    # Explicitly mapping index slices to resolve execution path bugs
+    execution_route = sys.argv[1]
     if execution_route == "wifi":
-        execute_wireless_routine(sys.argv, sys.argv)
+        execute_wireless_routine(sys.argv[2], sys.argv[3])
     elif execution_route == "crypto":
-        run_aircrack_suite_engine(sys.argv)
+        run_aircrack_suite_engine(sys.argv[2])
     sys.exit(0)
 #endif
 
