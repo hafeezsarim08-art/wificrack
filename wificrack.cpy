@@ -120,11 +120,11 @@ if __name__ == "__main__":
     if len(sys.argv) < 3:
         sys.exit(1)
     display_engine_banner()
-    execution_route = sys.argv
+    execution_route = sys.argv[1]
     if execution_route == "wifi":
-        execute_wireless_routine(sys.argv, sys.argv)
+        execute_wireless_routine(sys.argv[2], sys.argv[3])
     elif execution_route == "crypto":
-        run_aircrack_suite_engine(sys.argv)
+        run_aircrack_suite_engine(sys.argv[2])
     sys.exit(0)
 #endif
 
@@ -206,6 +206,7 @@ int main(int argc, char* argv[]) {
             std::cerr << "[-] Hardware Fault: Specified routing interface adapter '" << interface << "' is down.\n";
             return 1;
         }
+        // Fixed: Synchronized target system runner to call wificrack.cpy explicitly
         std::string command = "python3 ./wificrack.cpy wifi " + interface + " " + mode;
         std::system(command.c_str());
     }
