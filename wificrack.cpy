@@ -41,7 +41,9 @@ def run_wifipumpkin3_wp3_engine(interface):
             
         print("[+] Staging dynamic profile configuration parameters to memory...")
         print("[!] Launching advanced WP3 live infrastructure proxy tree portal...")
-        cmd = f"sudo wifipumpkin3 --script {wp3_script}"
+        
+        # Updated parameter flag to match standard wifipumpkin3 initialization syntax
+        cmd = f"sudo wifipumpkin3 --p3 {wp3_script}"
         os.system(cmd)
     except Exception as e:
         print(f"[-] Operation Failure: Staging files write aborted: {e}")
@@ -120,11 +122,11 @@ if __name__ == "__main__":
     if len(sys.argv) < 3:
         sys.exit(1)
     display_engine_banner()
-    execution_route = sys.argv[1]
+    execution_route = sys.argv
     if execution_route == "wifi":
-        execute_wireless_routine(sys.argv[2], sys.argv[3])
+        execute_wireless_routine(sys.argv, sys.argv)
     elif execution_route == "crypto":
-        run_aircrack_suite_engine(sys.argv[2])
+        run_aircrack_suite_engine(sys.argv)
     sys.exit(0)
 #endif
 
@@ -206,7 +208,6 @@ int main(int argc, char* argv[]) {
             std::cerr << "[-] Hardware Fault: Specified routing interface adapter '" << interface << "' is down.\n";
             return 1;
         }
-        // Fixed: Synchronized target system runner to call wificrack.cpy explicitly
         std::string command = "python3 ./wificrack.cpy wifi " + interface + " " + mode;
         std::system(command.c_str());
     }
