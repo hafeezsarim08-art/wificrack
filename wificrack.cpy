@@ -49,7 +49,6 @@ if __name__ == "__main__":
     elif execution_route == "crypto":
         execute_cryptographic_parsing(sys.argv[2])
         
-    # Crucial: Forces Python to exit here so it never attempts to read the C++ code below
     sys.exit(0)
 #endif
 
@@ -61,9 +60,23 @@ if __name__ == "__main__":
 #include <cstring>
 #include <cstdlib>
 #include <unistd.h>
+#include <csignal>    // Required for intercepting system breaks (Ctrl+C)
 #include <sys/socket.h>
 #include <sys/ioctl.h>
 #include <net/if.h>
+
+// Global flag or function to clean up background processes cleanly
+void signalHandler(int signum) {
+    std::cout << "\n\n[!] Intercepted signal (" << signum << "). Initializing safe cleanup protocol...\n";
+    std::cout << "[*] Restoring network state and terminating orphaned subprocess threads...\n";
+    
+    // Natively terminates any hidden background workers to prevent firmware locks
+    std::system("sudo pkill -f bettercap > /dev/null 2>&1");
+    std::system("sudo systemctl start NetworkManager > /dev/null 2>&1");
+    
+    std::cout << "[+] Cleanup completed successfully. Exiting environment safely.\n";
+    std::exit(signum);
+}
 
 void displayUsageGuide(const std::string& programName) {
     std::cout << "====================================================\n"
@@ -98,6 +111,9 @@ bool verifyHardwareInterface(const std::string& ifaceName) {
 }
 
 int main(int argc, char* argv[]) {
+    // Register the custom signal interceptor callback function
+    std::signal(SIGINT, signalHandler);
+
     std::string interface = "";
     std::string mode = "";
     std::string filePath = "";
